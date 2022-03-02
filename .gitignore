@@ -1,5 +1,5 @@
 .vscode
 
-./result
 linear_proj/
 vitis_hls.log
+result

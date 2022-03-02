@@ -1,7 +1,7 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-#define __FLOATING_POINT_MODEL__ 0
+#define __FLOATING_POINT_MODEL__ 1
 #define __PRINT__ 0
 
 #include <chrono>

@@ -76,13 +76,13 @@ void linear(F_TYPE input[in_size],
             }
 
             // write temp sum to output
-            // aslo add bias to output
+            // aslo write bias to output on first block itteration
             WRITE_LOOP:
             for(int k =0; k<BLOCK_SIZE_OUT; k++){
-                output[i+k] += temp_sum[k];
                 if (j == 0) {
-                    output[i+k] += bias[i+k];
+                    output[i + k] = bias[i + k];
                 }
+                output[i+k] += temp_sum[k];
             }
 
         }
