@@ -1,40 +1,85 @@
 #include "model.h"
 
+// inputs
+float input_float[INPUT_SIZE];
+F_TYPE input_fixed[INPUT_SIZE];
+
+// weights
+float weight_float[OUTPUT_SIZE][INPUT_SIZE];
+F_TYPE weights_fixed[OUTPUT_SIZE][INPUT_SIZE];
+
+// bias
+float bias_float[OUTPUT_SIZE];
+F_TYPE bias_fixed[OUTPUT_SIZE];
+
+// computed outputs
+float output_float[OUTPUT_SIZE];
+F_TYPE output_fixed[OUTPUT_SIZE];
+
+// expected outputs
+float golden_output_float[OUTPUT_SIZE];
 
 int main() {
-    F_TYPE input[INPUT_SIZE];
-    F_TYPE weight[OUTPUT_SIZE][INPUT_SIZE];
-    F_TYPE output[OUTPUT_SIZE];
-    F_TYPE golden_output[OUTPUT_SIZE];
 
+    std::srand(0);
+    
+
+    printf("INPUT_SIZE: %d\n", INPUT_SIZE);
+    printf("OUTPUT_SIZE: %d\n", OUTPUT_SIZE);
+
+    // inputs
     for (int i = 0; i < INPUT_SIZE; i++) {
-        input[i] = random() / (F_TYPE)RAND_MAX;
-        PRINT(printf("input[%d] = %f\n", i, input[i]));
+        input_float[i] = (std::rand() / (float)RAND_MAX)*2-1;
+    }
+    for (int i = 0; i < INPUT_SIZE; i++) {
+        input_fixed[i] = (F_TYPE)input_float[i];
     }
 
+    // weights
     for (int i = 0; i < OUTPUT_SIZE; i++) {
         for (int j = 0; j < INPUT_SIZE; j++) {
-            weight[i][j] = random() / (F_TYPE)RAND_MAX;
-            PRINT(printf("weight[%d][%d] = %f\n", i, j, weight[i][j]));
+            weight_float[i][j] = (std::rand() / (float)RAND_MAX) * 2 - 1;
+        }
+    }
+    for (int i = 0; i < OUTPUT_SIZE; i++) {
+        for (int j = 0; j < INPUT_SIZE; j++) {
+            weights_fixed[i][j] = (F_TYPE)weight_float[i][j];
         }
     }
 
-    // compute golden output
+    // bias
     for (int i = 0; i < OUTPUT_SIZE; i++) {
-        golden_output[i] = 0;
-        for (int j = 0; j < INPUT_SIZE; j++) {
-            golden_output[i] += weight[i][j] * input[j];
-        }
+        bias_float[i] = (std::rand() / (float)RAND_MAX) * 2 - 1;
+    }
+    for (int i = 0; i < OUTPUT_SIZE; i++) {
+        bias_fixed[i] = (F_TYPE)bias_float[i];
     }
 
-    linear_model(input, output, weight);
+    // golden output
+    float sum;
+    for (int i = 0; i < OUTPUT_SIZE; i++) {
+        sum = bias_float[i];
+        for (int j = 0; j < INPUT_SIZE; j++) {
+            sum += weight_float[i][j] * input_float[j];
+        }
+        golden_output_float[i] = sum;
+    }
+
+    linear_model(input_fixed, output_fixed, weights_fixed, bias_fixed);
+
+    // convert computed output to floating point
+    for (int i = 0; i < OUTPUT_SIZE; i++) {
+        output_float[i] = (float)output_fixed[i];
+    }
 
     int correct = 1;
     for (int i = 0; i < OUTPUT_SIZE; i++) {
-        float diff = abs(output[i] - golden_output[i]);
-        if (diff > 0.001) {
+        float diff = abs(output_float[i] - golden_output_float[i]);
+        if (diff > 0.01) {
             correct = 0;
-            printf("output[%d] = %f, golden_output[%d] = %f, diff = %f\n", i, (float)output[i], i, (float)golden_output[i], diff);
+            printf("output[%i] = %f, golden_output[%i] = %f, diff = %f\n", i, output_float[i], i, golden_output_float[i], diff);
+            // print bias as i
+            printf("bias[%i] = %f\n", i, bias_float[i]);
         }
     }
 

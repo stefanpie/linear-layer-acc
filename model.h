@@ -20,8 +20,8 @@ typedef float W_TYPE;
     #pragma message("Fixed point model")
     #include "ap_fixed.h"
     #include "hls_math.h"
-    #define FIXED_TYPE_F ap_fixed<8, 2>
-    #define FIXED_TYPE_W ap_fixed<8, 2>
+    #define FIXED_TYPE_F ap_fixed<32, 10>
+    #define FIXED_TYPE_W ap_fixed<32, 10>
 typedef FIXED_TYPE_F F_TYPE;
 typedef FIXED_TYPE_W W_TYPE;
     #define abs(x) hls::abs(x)
@@ -33,11 +33,12 @@ typedef FIXED_TYPE_W W_TYPE;
     #define PRINT(x)
 #endif
 
-#define INPUT_SIZE 2048
-#define OUTPUT_SIZE 256
+#define INPUT_SIZE 12544
+#define OUTPUT_SIZE 1024
 
 void linear_model(F_TYPE input[INPUT_SIZE],
                   F_TYPE output[OUTPUT_SIZE],
-                  F_TYPE weight[OUTPUT_SIZE][INPUT_SIZE]);
+                  F_TYPE weight[OUTPUT_SIZE][INPUT_SIZE],
+                  W_TYPE bias[OUTPUT_SIZE]);
 
 #endif

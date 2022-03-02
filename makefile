@@ -8,11 +8,6 @@ IFLAG += -I "${AUTOPILOT_ROOT}/include"
 IFLAG += -I "${AUTOPILOT_ROOT}/include/etc"
 IFLAG += -I "${AUTOPILOT_ROOT}/include/utils"
 
-IFLAG += -I "${AUTOPILOT_ROOT}/lnx64/tools/fpo_v6_1"
-IFLAG += -I "${AUTOPILOT_ROOT}/lnx64/tools/fft_v9_1"
-IFLAG += -I "${AUTOPILOT_ROOT}/lnx64/tools/fir_v7_0"
-IFLAG += -I "${AUTOPILOT_ROOT}/lnx64/tools/dds_v6_0"
-IFLAG += -I "${AUTOPILOT_ROOT}/lnx64/csim"
 
 CFLAG += -L"${AUTOPILOT_ROOT}/lnx64/lib/csim" -lhlsmc++-GCC46 -Wl,-rpath,"${AUTOPILOT_ROOT}/lnx64/lib/csim" -Wl,-rpath,"${AUTOPILOT_ROOT}/lnx64/tools/fpo_v7_0"
 
@@ -20,8 +15,7 @@ CFLAG += -L"${AUTOPILOT_ROOT}/lnx64/lib/csim" -lhlsmc++-GCC46 -Wl,-rpath,"${AUTO
 IFLAG += -D__SIM_FPO__ -D__SIM_OPENCV__ -D__SIM_FFT__ -D__SIM_FIR__ -D__SIM_DDS__ -D__DSP48E1__
 
 
-# IFLAG += -DDEBUG_FILE_PRINT=1
-IFLAG += -g
+IFLAG += -g -ggdb
 CFLAG += -fPIC -O3 -Wno-unused-result
 CFLAG += -lm
 CFLAG += -std=c++11
