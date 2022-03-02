@@ -78,8 +78,6 @@ int main() {
         if (diff > 0.01) {
             correct = 0;
             printf("output[%i] = %f, golden_output[%i] = %f, diff = %f\n", i, output_float[i], i, golden_output_float[i], diff);
-            // print bias as i
-            printf("bias[%i] = %f\n", i, bias_float[i]);
         }
     }
 

@@ -100,10 +100,10 @@ void linear_model(F_TYPE input[INPUT_SIZE],
 #pragma HLS INTERFACE m_axi port = bias offset = slave bundle = b3
 
 // assign local memory as 2-port bram
-#pragma HLS BIND_STORAGE variable = input_local type = ram_2p
-#pragma HLS BIND_STORAGE variable = weight_local type = ram_2p
-#pragma HLS BIND_STORAGE variable = output_local type = ram_2p
-#pragma HLS BIND_STORAGE variable = bias_local type = ram_2p
+#pragma HLS BIND_STORAGE variable = input_local type = ram_2p impl = bram
+#pragma HLS BIND_STORAGE variable = weight_local type = ram_2p impl = bram
+#pragma HLS BIND_STORAGE variable = output_local type = ram_2p impl = bram
+#pragma HLS BIND_STORAGE variable = bias_local type = ram_2p impl = bram
 
     // copy input to local memory
     copy_1d<INPUT_SIZE, F_TYPE>(input, input_local);
